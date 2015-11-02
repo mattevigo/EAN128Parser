@@ -90,20 +90,20 @@ namespace Drkstr.EAN128
         /// Esegue il parsing di Data e restituisce il valore intero
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="Drkstr.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un intero
+        /// <exception cref="FormatException" /> Se il valore dei dati non corrisponde a un intero
         public int ParseInt()
         {
-            return 0;
+            return Convert.ToInt32(Data);
         }
 
         /// <summary>
         /// Esegue il parsing di Data e restituisce il valore in double
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="Drkstr.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un double
+        /// <exception cref="FormatException" /> Se il valore dei dati non corrisponde a un double
         public double ParseDouble()
         {
-            return 0D;
+            return Convert.ToDouble(Data); ;
         }
 
         public override string ToString()
