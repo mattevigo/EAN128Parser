@@ -76,11 +76,13 @@ namespace Drkstr.EAN128
                 int m = Convert.ToInt32(Data.Substring(2, 2));
                 int d = Convert.ToInt32(Data.Substring(4, 2));
 
+                if (d == 0) d = 1; // If first day not specified
+
                 return new DateTime(y, m, d);
             }
             else
             {
-                throw new EAN128Exception("Format not valid");
+                throw new EAN128Exception("AI("+_format.AI+") is not a date");
             }
         }
 

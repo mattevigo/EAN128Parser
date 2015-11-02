@@ -16,7 +16,7 @@ namespace Drkstr.EAN128
 
     public class GS1Algorithm
     {
-        private static char[] FNC1Values = new char[] { (char)29 };
+        private static char[] FNC1Values = new char[] { (char)29, (char)32 };
 
         private string _ai;
         /// <summary>
