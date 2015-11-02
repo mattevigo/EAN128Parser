@@ -29,11 +29,7 @@ namespace Drkstr.EAN128
         public void AddBarcode(byte[] rawData)
         {
             EAN128Tokenizer t = new EAN128Tokenizer(rawData);
-
-            while (t.HasMoreToken())
-            {
-                Elements.Add(t.NextToken());
-            }
+            AddToken(t);
         }
 
         /// <summary>
@@ -43,10 +39,24 @@ namespace Drkstr.EAN128
         public void AddBarcode(char[] asciiData)
         {
             EAN128Tokenizer t = new EAN128Tokenizer(asciiData);
+            AddToken(t);
+        }
 
+        /// <summary>
+        /// Aggiunge un token al barcode se questo non è stato ancora aggiunto
+        /// </summary>
+        /// <param name="t">L'EAN128Tokenizer da inserire</param>
+        public void AddToken(EAN128Tokenizer t)
+        {
             while (t.HasMoreToken())
             {
-                Elements.Add(t.NextToken());
+                var nextToken = t.NextToken();
+                var elements = (from e in Elements where e.Data.Equals(nextToken.Data) select e);
+
+                if (elements.Count() == 0)
+                {
+                    Elements.Add(nextToken);
+                } 
             }
         }
 

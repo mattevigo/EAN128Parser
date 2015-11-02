@@ -67,7 +67,7 @@ namespace Drkstr.EAN128
         /// Esegue il parsing di Data e restituisce il valore in DateTime
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="It.Daxo.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a una data
+        /// <exception cref="Drkstr.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a una data
         public DateTime ParseDate()
         {
             if (GS1Algorithm.StringEquals(_format.AI, new string[] { "11", "12", "13", "15", "17" }))
@@ -88,7 +88,7 @@ namespace Drkstr.EAN128
         /// Esegue il parsing di Data e restituisce il valore intero
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="It.Daxo.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un intero
+        /// <exception cref="Drkstr.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un intero
         public int ParseInt()
         {
             return 0;
@@ -98,7 +98,7 @@ namespace Drkstr.EAN128
         /// Esegue il parsing di Data e restituisce il valore in double
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="It.Daxo.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un double
+        /// <exception cref="Drkstr.EAN128.EAN128Exception" /> Se il valore dei dati non corrisponde a un double
         public double ParseDouble()
         {
             return 0D;
