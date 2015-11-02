@@ -69,7 +69,7 @@ namespace Drkstr.EAN128
         /// con indice Index ed avanza l'indice alla prima possizione utile per i dati
         /// </summary>
         /// <returns>Il corrispondente ElementStringFormat</returns>
-        /// <exception cref="It.Daxo.EAN128.GS1AlgorithmException" /> se si è verificato un errore di parsing
+        /// <exception cref="Drkstr.EAN128.GS1AlgorithmException" /> se si è verificato un errore di parsing
         public ElementStringFormat NextFormat()
         {
             while (this._state != GS1State.EXT)
@@ -77,17 +77,24 @@ namespace Drkstr.EAN128
                 SetNextChar(Barcode[Index++]);
             }
 
-            ElementStringFormat format = (ElementStringFormat) EAN128Tokenizer.Formats[AI].Clone();
-
-            // Gestione numero di cifre decimali
-            if (StringEquals(AI.Substring(0, 2), new string[] { "31", "32", "33", "34", "35", "36", "39" }))
+            try
             {
-                // Si recupera il numero di cifre decimali e si avanza l'indice al carattere successivo
-                int nod = Convert.ToInt32(Barcode[Index++].ToString());
-                format.NumberOfDecimal = nod;
-            }
+                ElementStringFormat format = (ElementStringFormat)EAN128Tokenizer.Formats[AI].Clone();
 
-            return format;
+                // Gestione numero di cifre decimali
+                if (StringEquals(AI.Substring(0, 2), new string[] { "31", "32", "33", "34", "35", "36", "39" }))
+                {
+                    // Si recupera il numero di cifre decimali e si avanza l'indice al carattere successivo
+                    int nod = Convert.ToInt32(Barcode[Index++].ToString());
+                    format.NumberOfDecimal = nod;
+                }
+
+                return format;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new GS1AlgorithmException("AI not found: "+AI);
+            }
         }
 
         /// <summary>
@@ -95,7 +102,7 @@ namespace Drkstr.EAN128
         /// </summary>
         /// <param name="next">Il carattere successivo</param>
         /// <returns></returns>
-        /// <exception cref="It.Daxo.Ean128.GS1AlgorithmException" /> in caso di errore
+        /// <exception cref="Drkstr.GS1AlgorithmException" /> in caso di errore
         private GS1Algorithm SetNextChar(char next)
         {
             if (State == GS1State.E)
@@ -284,7 +291,7 @@ namespace Drkstr.EAN128
         /// </summary>
         /// <param name="format">Il formato dell'ElementString da parsare</param>
         /// <returns></returns>
-        /// <exception cref="It.Daxo.Ean128.GS1AlgorithmException" /> in caso di errore
+        /// <exception cref="Drkstr.GS1AlgorithmException" /> in caso di errore
         public ElementString NextElementWithFormat(ElementStringFormat format)
         {
             ElementString element = new ElementString(format);

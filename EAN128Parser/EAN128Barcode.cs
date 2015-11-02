@@ -25,7 +25,7 @@ namespace Drkstr.EAN128
         /// Aggiunge un barcode al corrente EAN128
         /// </summary>
         /// <param name="rawData">Il dat grezzo del barcode</param>
-        /// <exception cref="It.Daxo.Ean128.EAN128Exception" /> se si verifica un errore di parsing
+        /// <exception cref="Drkstr.Ean128.EAN128Exception" /> se si verifica un errore di parsing
         public void AddBarcode(byte[] rawData)
         {
             EAN128Tokenizer t = new EAN128Tokenizer(rawData);
