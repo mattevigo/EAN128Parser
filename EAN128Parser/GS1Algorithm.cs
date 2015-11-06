@@ -72,28 +72,35 @@ namespace Drkstr.EAN128
         /// <exception cref="Drkstr.EAN128.GS1AlgorithmException" /> se si è verificato un errore di parsing
         public ElementStringFormat NextFormat()
         {
-            while (this._state != GS1State.EXT)
-            {
-                SetNextChar(Barcode[Index++]);
-            }
-
             try
             {
-                ElementStringFormat format = (ElementStringFormat)EAN128Tokenizer.Formats[AI].Clone();
-
-                // Gestione numero di cifre decimali
-                if (StringEquals(AI.Substring(0, 2), new string[] { "31", "32", "33", "34", "35", "36", "39" }))
+                while (this._state != GS1State.EXT)
                 {
-                    // Si recupera il numero di cifre decimali e si avanza l'indice al carattere successivo
-                    int nod = Convert.ToInt32(Barcode[Index++].ToString());
-                    format.NumberOfDecimal = nod;
+                    SetNextChar(Barcode[Index++]);
                 }
 
-                return format;
+                try
+                {
+                    ElementStringFormat format = (ElementStringFormat)EAN128Tokenizer.Formats[AI].Clone();
+
+                    // Gestione numero di cifre decimali
+                    if (StringEquals(AI.Substring(0, 2), new string[] { "31", "32", "33", "34", "35", "36", "39" }))
+                    {
+                        // Si recupera il numero di cifre decimali e si avanza l'indice al carattere successivo
+                        int nod = Convert.ToInt32(Barcode[Index++].ToString());
+                        format.NumberOfDecimal = nod;
+                    }
+
+                    return format;
+                }
+                catch (KeyNotFoundException)
+                {
+                    throw new GS1AlgorithmException("AI not found: " + AI);
+                }
             }
-            catch (KeyNotFoundException)
+            catch (Exception)
             {
-                throw new GS1AlgorithmException("AI not found: "+AI);
+                throw new GS1AlgorithmException("Error occured while parsing format");
             }
         }
 
